@@ -1,0 +1,53 @@
+{
+  "name": "template.ramadoka",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "nyc": {
+    "exclude": "src/**/**.spec.ts",
+    "reporter": [
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "mocha": {
+    "spec": "src/**/**.spec.ts"
+  },
+  "scripts": {
+    "debug:ts": "node --inspect=5858 -r ts-node/register --experimental-repl-await",
+    "dev": "next",
+    "export": "next export",
+    "build": "next build",
+    "lint": "tslint -p tsconfig.json",
+    "fix": "yarn lint -p tsconfig.json -c tslint.fix.json --fix",
+    "test": "NODE_PATH='src' TS_NODE_CACHE=false nyc mocha --timeout=10000 --check-leaks -r $TS_NODE \"src/**/**.spec.ts\"",
+    "circular": "madge --circular ./dist",
+    "graph": "madge --image graph.png ./dist",
+    "deploy:prod": "rm -rf out && yarn build && yarn dev export && aws s3 cp ./out s3://admin-belibitcoin.cryptoket.io --acl public-read --recursive",
+    "deploy:dev": "rm -rf out && yarn build && yarn dev export && aws s3 cp ./out s3://admin-belibitcoin-dev.cryptoket.io --acl public-read --recursive"
+  },
+  "dependencies": {
+    "@cryptoket/ts-maybe": "^1.0.21",
+    "@cryptoket/ts-memoize": "^1.0.10",
+    "@cryptoket/ts-promise-helper": "^1.0.25",
+    "@types/node": "^12.12",
+    "@zeit/next-css": "^1.0.1",
+    "axios": "^0.19.0",
+    "buffer": "^5.4.3",
+    "colors": "^1.4.0",
+    "debug": "^4.1.1",
+    "next": "^9.1.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/colors": "^1.2.1",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.3",
+    "@types/mocha": "^5.2.6",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.5"
+  }
+}

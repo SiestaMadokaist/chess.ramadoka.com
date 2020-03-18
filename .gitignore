@@ -1,0 +1,15 @@
+dist
+*.swp
+yarn-error.log
+node_modules/
+packages
+
+# Serverless directories
+.serverless
+.env.sh
+env/**
+.next/*
+out/*
+.vscode/settings.json
+coverage
+.nyc_output
