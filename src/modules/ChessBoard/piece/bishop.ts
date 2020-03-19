@@ -9,6 +9,10 @@ export class Bishop extends Piece {
     return 'bishop';
   }
 
+  movedTo(position: Position): Bishop {
+    return new Bishop(position, this.teamColor());
+  }
+
   $validMoves(board: ChessBoard): Cell[] {
     const { upLeft, upRight , downLeft, downRight} = this.diagonals(board);
     return [

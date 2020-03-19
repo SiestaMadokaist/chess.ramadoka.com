@@ -1,7 +1,7 @@
 import { ChessBoard } from '../board';
 import { Cell } from '../cell';
 import { Rook } from './rook';
-import { $position } from '../position';
+import { $position, Position } from '../position';
 import { TeamColor, Piece } from './base';
 import { expect } from 'chai';
 import $debug from 'debug';
@@ -13,8 +13,8 @@ describe('Rook', () => {
     const initBoard = () => {
       const cells = Cell.fill(8, 8);
       const zerothCell = cells[0][0];
-      const rook = new Rook(zerothCell, TeamColor.white);
-      const enemyRook = new Rook(cells[1][0], TeamColor.black);
+      const rook = new Rook(zerothCell.position(), TeamColor.white);
+      const enemyRook = new Rook(cells[1][0].position(), TeamColor.black);
       cells[0][0] = zerothCell.rebuild(rook);
       cells[1][0] = cells[1][0].rebuild(enemyRook);
       const board = ChessBoard.initCustom(cells);
@@ -65,8 +65,8 @@ describe('Rook', () => {
     const initBoard = () => {
       const cells = Cell.fill(8, 8);
       const zerothCell = cells[0][0];
-      const rook = new Rook(zerothCell, TeamColor.white);
-      const friendRook = new Rook(cells[1][0], TeamColor.white);
+      const rook = new Rook(zerothCell.position(), TeamColor.white);
+      const friendRook = new Rook(cells[1][0].position(), TeamColor.white);
       cells[0][0] = zerothCell.rebuild(rook);
       cells[1][0] = cells[1][0].rebuild(friendRook);
       const board = ChessBoard.initCustom(cells);
@@ -113,7 +113,7 @@ describe('Rook', () => {
     const initBoard = () => {
       const cells = Cell.fill(8, 8);
       const zerothCell = cells[0][0];
-      const rook = new Rook(zerothCell, TeamColor.white);
+      const rook = new Rook(zerothCell.position(), TeamColor.white);
       cells[0][0] = zerothCell.rebuild(rook);
       const board = ChessBoard.initCustom(cells);
       return board;
@@ -127,8 +127,8 @@ describe('Rook', () => {
       const valids = rook.validMoves(board);
       const validSet = new Set(valids);
       for (let i = 1; i < 8; i++) {
-        const h = board.cell(rook.x(), i);
-        const v = board.cell(i, rook.y());
+        const h = board.cellAt($position(rook.x(), i));
+        const v = board.cellAt($position(i, rook.y()));
         expect(validSet.has(h.position()));
         validSet.delete(h.position());
         expect(validSet.has(v.position()));

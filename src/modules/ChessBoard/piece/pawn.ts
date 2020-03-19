@@ -9,6 +9,10 @@ export class Pawn extends Piece {
     return 'rook';
   }
 
+  movedTo(position: Position): Pawn {
+    return new Pawn(position, this.teamColor());
+  }
+
   straightMoveFilter(cells: Cell[]): Cell[] {
     return cells.filter((cell) => {
       if (cell.y() === this.y() + 1) {

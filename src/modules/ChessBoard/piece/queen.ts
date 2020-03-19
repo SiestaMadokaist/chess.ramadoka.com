@@ -9,6 +9,10 @@ export class Queen extends Piece {
     return 'rook';
   }
 
+  movedTo(position: Position): Queen {
+    return new Queen(position, this.teamColor());
+  }
+
   protected $validMoves(board: ChessBoard): Cell[] {
     const { up, down } = this.verticals(board);
     const { left, right } = this.horizontals(board);

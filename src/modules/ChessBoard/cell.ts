@@ -2,7 +2,7 @@ import { Piece, TeamColor } from './piece/base';
 import { Position, $position } from './position';
 
 interface CellProps {
-  pawn?: Piece;
+  piece?: Piece;
   position: Position;
 }
 
@@ -45,13 +45,13 @@ export class Cell {
   }
 
   filledBy(teamColor: TeamColor): boolean {
-    const pawn = this.piece();
-    if (pawn === undefined) { return false; }
-    return pawn.isTeam(teamColor);
+    const piece = this.piece();
+    if (piece === undefined) { return false; }
+    return piece.isTeam(teamColor);
   }
 
-  rebuild(pawn: Piece): Cell {
-    return new Cell({ pawn, position: this.position() });
+  rebuild(piece: Piece): Cell {
+    return new Cell({ piece: piece.movedTo(this.position()), position: this.position() });
   }
 
   // private cellColor(): CellColor {
@@ -87,7 +87,7 @@ export class Cell {
   }
 
   piece(): undefined | Piece {
-    return this.#props.pawn;
+    return this.#props.piece;
   }
 
   position(): Position {

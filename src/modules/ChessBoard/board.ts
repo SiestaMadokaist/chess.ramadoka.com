@@ -148,7 +148,7 @@ export class ChessBoard {
       return this;
     }
     this.#listener.emit('moved', event);
-    return this.putPawn(pawn, next);
+    return this.putPiece(pawn, next);
   }
 
   cellMap(callback: (cell: Cell) => Cell): BoardCells {
@@ -203,10 +203,10 @@ export class ChessBoard {
     console.log(''.padEnd(2), ...coloredMeta);
   }
 
-  private putPawn(pawn: Piece, at: Position): ChessBoard {
+  private putPiece(piece: Piece, at: Position): ChessBoard {
     const updatedCell = this.cellMap((cell) => {
-      if (pawn.position().eq(cell.position())) { return Cell.empty(cell.position()); }
-      if (cell.position().eq(at)) { return cell.rebuild(pawn); }
+      if (piece.position().eq(cell.position())) { return Cell.empty(cell.position()); }
+      if (cell.position().eq(at)) { return cell.rebuild(piece); }
       return cell;
     });
     return new ChessBoard(updatedCell, this.#listener);

@@ -12,11 +12,11 @@ describe('Bishop', () => {
   context('at (0, 0) with enemy at (1, 1)', () => {
     const initBoard = () => {
       const cells = Cell.fill(8, 8);
-      const zerothCell = cells[0][0];
-      const bishop = new Bishop(zerothCell, TeamColor.white);
-      const enemyRook = new Bishop(cells[1][1], TeamColor.black);
-      cells[0][0] = zerothCell.rebuild(bishop);
-      cells[1][1] = cells[1][1].rebuild(enemyRook);
+      const anywhere = $position(-1, -1);
+      const whiteBishop = new Bishop(anywhere, TeamColor.white);
+      const blackBishop = new Bishop(anywhere, TeamColor.black);
+      // cells[0][0] = zerothCell.rebuild(bishop);
+      // cells[1][1] = cells[1][1].rebuild(enemyRook);
       const board = ChessBoard.initCustom(cells);
       return board;
     };

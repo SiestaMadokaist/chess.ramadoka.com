@@ -23,16 +23,24 @@ export interface Verticals {
   down: Cell[];
 }
 
+export type PieceConstructor = new (position: Position, color: TeamColor) => Piece;
 export abstract class Piece {
 
-  #cell: Cell;
+  static create<P extends Piece>(color: TeamColor): P {
+    const that: PieceConstructor = this as unknown as PieceConstructor;
+    return new that($position(-1, -1), color) as P;
+  }
+
+  #position: Position;
   #color: TeamColor;
-  constructor(cell: Cell, color: TeamColor) {
-    this.#cell = cell;
+  constructor(position: Position, color: TeamColor) {
+    this.#position = position;
     this.#color = color;
   }
 
   abstract name(): string;
+
+  abstract movedTo(position: Position): Piece;
 
   eq(pawn: Piece): boolean {
     if (this.name() !== pawn.name()) { return false; }
@@ -54,7 +62,7 @@ export abstract class Piece {
   }
 
   position(): Position {
-    return this.#cell.position();
+    return this.#position;
   }
 
   x(): Position['x'] {
@@ -100,6 +108,7 @@ export abstract class Piece {
   protected straightMoveFilter(cells: Cell[]): Cell[] {
     const accumulator: Cell[] = [];
     for (const cell of cells) {
+      if (!(cell instanceof Cell)) { continue; }
       if (cell.empty()) {
         accumulator.push(cell);
       } else if (cell.filledBy(this.teamColor())) {
